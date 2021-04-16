@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image : mongo
+    container_name: mongodb
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - '27017:27017'
+    restart: unless-stopped
+  redis:
+    image: redis:latest
+    ports:
+        - 6379:6379
+    command: [ "redis-server", "/redis.conf" ]
+    container_name: redis
+  publisher:
+    build:
+      context: ./publisher
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    container_name: publisher
+  subscriber-1:
+    build:
+      context: ./subscriber-1
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+    ports:
+      - '3001:3001'
+    restart: on-failure
+    container_name: subscriber-1
+  subscriber-2:
+    build:
+      context: ./subscriber-2
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+    ports:
+      - '3002:3002'
+    restart: on-failure
+    container_name: subscriber-2
