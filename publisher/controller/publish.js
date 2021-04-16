@@ -1,8 +1,8 @@
 const producer = require("../config/queue/producer");
 const Topic = require("../models/topic.model");
 
-async function publish({ body }, res) {
-	const topic = await (await Topic.findOne({ name: body.topic }))
+async function publish({ body, params }, res) {
+	const topic = await (await Topic.findOne({ name: params.topic }))
 		?.populate("subscribers")
 		.execPopulate();
 	if (topic) {

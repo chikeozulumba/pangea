@@ -1,8 +1,10 @@
 const Joi = require("joi");
 
 const publishData = {
-	body: Joi.object().keys({
+	params: Joi.object().keys({
 		topic: Joi.string().required(),
+	}),
+	body: Joi.object().keys({
     data: Joi.object().keys().length(1).required(),
 	}),
 };

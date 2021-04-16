@@ -8,6 +8,6 @@ const { createSubscription } = require("../validations/subscribe");
 const router = express.Router();
 
 router.route("/subscribe/:topic").post(validate(createSubscription), SubscriptionController.subscribe);
-router.route("/publish").post(validate(publishData), PublishController.publish);
+router.route("/publish/:topic").post(validate(publishData), PublishController.publish);
 
 module.exports = router;
